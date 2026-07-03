@@ -4,11 +4,13 @@ import AccountMenuItem from "./AccountMenuItem.vue";
 import LogoutMenuItem from "./LogoutMenuItem.vue";
 import MenuItem from "./MenuItem.vue";
 import config from "@/config";
+import { useAuthStore } from "@/stores/auth.js";
 
 const { login, join } = config.accountMenus;
 
-const islogin = computed(() => false);
-const username = computed(() => "");
+const auth = useAuthStore();
+const islogin = computed(() => auth.isLogin);
+const username = computed(() => auth.username);
 </script>
 
 <template>

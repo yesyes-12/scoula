@@ -40,4 +40,12 @@
         INSERT INTO tbl_member_auth(username, auth)
         VALUES (#{username},#{auth})
     </insert>
+
+    <update id="update">
+        UPDATE tbl_member
+        SET
+            email = #{email}
+            update_date = now()
+        WHERE username = #{username}
+    </update>
 </mapper>

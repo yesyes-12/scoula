@@ -46,6 +46,11 @@ export const useAuthStore = defineStore("auth", () => {
     }
   };
 
+  const changeProfile = (member) => {
+    state.value.user.email = member.email;
+    localStorage.setItem("auth", JSON.stringify(state.value));
+  };
+
   load();
 
   return { state, username, email, isLogin, login, logout, getToken };

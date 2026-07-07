@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 
@@ -50,6 +51,17 @@ public class UploadFiles {
         try(OutputStream os = response.getOutputStream();
             BufferedOutputStream bos = new BufferedOutputStream(os)){
             Files.copy(Paths.get(file.getPath()), bos);
+        }
+    }
+
+    public static void downloadImage(HttpServletResponse response, File file) {
+        try {
+            Path path = Path.of(file.getPath());
+            String mimeType = Files.probeContentType(path);
+            response.setContentType(mimeType);
+            response.setContentLength((int) file.length());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

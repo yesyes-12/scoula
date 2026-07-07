@@ -2,11 +2,15 @@ package org.scoula.member.controller;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.scoula.common.util.UploadFiles;
 import org.scoula.member.dto.MemberDTO;
 import org.scoula.member.dto.MemberJoinDTO;
 import org.scoula.member.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
 
 @Log4j2
 @RestController
@@ -23,5 +27,16 @@ public class MemberController {
     @PostMapping("")
     public ResponseEntity<MemberDTO> join(MemberJoinDTO member) {
         return ResponseEntity.ok(service.join(member));
+    }
+
+    @GetMapping("/{username}/avatar")
+    public void getAvatar(@PathVariable String username, HttpServletResponse response) {
+        String basePath = System.getProperty("user.home") + "/upload/avatar";
+        String avatarPath = basePath + username + ".png";
+        File file = new File(avatarPath);
+        if (!file.exists()) {
+            file = new File(basePath+"unknown.png");
+        }
+        UploadFiles.downloadImage(response, file);
     }
 }
